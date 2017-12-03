@@ -42,7 +42,7 @@ var assign = fav.prop.assign;
 
 Copys all enumerable own properties from one or more source objects to a destination object and returns a destination object.
 
-***NOTE:*** *This function behave same with `Object.assign` except when first argument is nullish and when properties of first argument object are read only.*
+***NOTE:*** *This function behave same with `Object.assign` except when the first argument is nullish and when properties of first argument object are read only. If the first argument is nullish, this function replace it to an empty plain object. It properties of first argument object are read only, this function ignore them and doesn't throw Errors.*
 
 #### Parameters:
 
@@ -102,7 +102,7 @@ This program is free software under [MIT][mit-url] License.
 See the file LICENSE in this distribution for more details.
 
 [repo-url]: https://github.com/sttk/fav-prop.assign/
-[npm-img]: https://img.shields.io/badge/npm-v0.0.0-blue.svg
+[npm-img]: https://img.shields.io/badge/npm-v0.1.0-blue.svg
 [npm-url]: https://www.npmjs.com/package/@fav/prop.assign
 [mit-img]: https://img.shields.io/badge/license-MIT-green.svg
 [mit-url]: https://opensource.org/licenses/MIT
