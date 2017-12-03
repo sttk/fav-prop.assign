@@ -44,7 +44,7 @@ assign({ a: 1, b: 1 }, { b: 2, c: 2 }); // => { a: 1, b: 2, c: 2 }
 
 Copys all enumerable own properties from one or more source objects to a destination object and returns a destination object.
 
-***NOTE:*** *This function behaves same with `Object.assign` except when the first argument is nullish and when properties of first argument object are read only. If the first argument is nullish, this function replace it to an empty plain object. It properties of first argument object are read only, this function ignore them and doesn't throw Errors.*
+***NOTE:*** *This function behaves the same way as `Object.assign` except when the first argument is nullish and when properties of first argument object are read only. If the first argument is nullish, this function replace it to an empty plain object. If properties of first argument object are read only, this function ignore them and doesn't throw Errors.*
 
 #### Parameters:
 
