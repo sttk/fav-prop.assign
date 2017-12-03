@@ -4,25 +4,27 @@
 var enumOwnKeys = require('@fav/prop.enum-own-keys');
 
 function assign(dest /* , src, ... */) {
+  dest = new Object(dest);
+
+  var fn;
   /* istanbul ignore if */
   if (typeof Object.assign !== 'function') {
-    if (dest == null) {
-      dest = {};
-    } else {
-      dest = new Object(dest);
-    }
-
-    for (var i = 1, n = arguments.length; i < n; i++) {
-      assignEach(dest, arguments[i]);
-    }
-    return dest;
+    fn = assignEach;
+  } else {
+    fn = Object.assign;
   }
 
 
-  if (arguments[0] == null) {
-    arguments[0] = {};
+  for (var i = 1, n = arguments.length; i < n; i++) {
+    try {
+      fn.call(this, dest, arguments[i]);
+    } catch (e) {
+      // If a property is read only, TypeError is thrown,
+      // but this funciton ignores it.
+    }
   }
-  return Object.assign.apply(this, arguments);
+
+  return dest;
 }
 
 /* istanbul ignore next */
@@ -34,7 +36,7 @@ function assignEach(dest, src) {
   }
 
   if (typeof Symbol === 'function') {
-    var symbols = Object.getOwnPropertySymbols(src);
+    var symbols = Object.getOwnPropertySymbols(new Object(src));
     for (var i3 = 0, n3 = symbols.length; i3 < n3; i3++) {
       var symbol = symbols[i3];
       dest[symbol] = src[symbol];

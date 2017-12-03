@@ -42,6 +42,8 @@ var assign = fav.prop.assign;
 
 Copys all enumerable own properties from one or more source objects to a destination object and returns a destination object.
 
+***NOTE:*** *This function behave same with `Object.assign` except when first argument is nullish and when properties of first argument object are read only.*
+
 #### Parameters:
 
 | Parameter |   Type   | Description              |

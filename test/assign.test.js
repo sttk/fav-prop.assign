@@ -114,13 +114,30 @@ describe('fav.prop.assign', function() {
   it('Should throw Exceptions when destinate properties are read only',
   function() {
     var target = Object.defineProperty({}, 'foo', {
-      value: 1,
-      writable: false,
+      enumerable: true,
+      value: -1,
     });
 
-    expect(function() {
-      assign(target, { bar: 2 }, { foo2: 3, foo: 3, foo3: 3 }, { baz: 4 });
-    }).throw(TypeError);
+    var symbol;
+    if (typeof Symbol === 'function') {
+      symbol = Symbol('foo');
+    } else {
+      symbol = 'symbol';
+    }
+
+    Object.defineProperty(target, symbol, {
+      enumerable: true,
+      value: -2,
+    });
+
+    var o1 = { bar: 2 };
+    var o2 = { foo2: 3, foo: 3 };
+    o2[symbol] = 3;
+    var o3 = { baz: 4 };
+    var ret = { bar: 2, foo2: 3, foo: -1, baz: 4 };
+    ret[symbol] = -2;
+
+    expect(assign(target, o1, o2, o3)).to.deep.equal(ret);
   });
 
 });
