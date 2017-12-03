@@ -111,7 +111,7 @@ describe('fav.prop.assign', function() {
       { 0: 'a', 1: 'b', 2: 'c' });
   });
 
-  it('Should throw Exceptions when destinate properties are read only',
+  it('Should not throw Errors when destination properties are read only',
   function() {
     var target = Object.defineProperty({}, 'foo', {
       enumerable: true,
