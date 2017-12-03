@@ -1,7 +1,7 @@
 {
   "name": "@fav/prop.assign",
   "version": "0.1.0",
-  "description": "Assigns own enumerable properties of source objects to the destination object.",
+  "description": "Copys own enumerable properties of source objects to the destination object.",
   "main": "index.js",
   "files": [
     "index.js",
