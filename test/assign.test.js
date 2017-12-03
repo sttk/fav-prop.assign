@@ -113,31 +113,42 @@ describe('fav.prop.assign', function() {
 
   it('Should not throw Errors when destination properties are read only',
   function() {
-    var target = Object.defineProperty({}, 'foo', {
-      enumerable: true,
-      value: -1,
+    var o0 = Object.defineProperties({}, {
+      foo: { enumerable: true, value: 0 },
+      bar: { enumerable: true, writable: true, value: 1 },
     });
 
-    var symbol;
+    var symbol1, symbol2;
     if (typeof Symbol === 'function') {
-      symbol = Symbol('foo');
-    } else {
-      symbol = 'symbol';
+      symbol1 = Symbol('s1');
+      symbol2 = Symbol('s2');
+
+      Object.defineProperty(o0, symbol1, {
+        enumerable: true,
+        value: 3,
+      });
+      Object.defineProperty(o0, symbol2, {
+        enumerable: true,
+        writable: true,
+        value: 4,
+      });
     }
 
-    Object.defineProperty(target, symbol, {
-      enumerable: true,
-      value: -2,
-    });
+    var o1 = { foo: 10 };
+    var o2 = { bar: 20 };
 
-    var o1 = { bar: 2 };
-    var o2 = { foo2: 3, foo: 3 };
-    o2[symbol] = 3;
-    var o3 = { baz: 4 };
-    var ret = { bar: 2, foo2: 3, foo: -1, baz: 4 };
-    ret[symbol] = -2;
+    if (typeof Symbol === 'function') {
+      o2[symbol1] = 30;
+      o2[symbol2] = 40;
+    }
 
-    expect(assign(target, o1, o2, o3)).to.deep.equal(ret);
+    var ret = assign(o0, o1, o2);
+    expect(ret).to.deep.equal({ foo: 0, bar: 20 });
+
+    if (typeof Symbol === 'function') {
+      expect(ret[symbol1]).to.equal(3);
+      expect(ret[symbol2]).to.equal(40);
+    }
   });
 
 });
