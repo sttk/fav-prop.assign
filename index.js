@@ -1,6 +1,6 @@
 'use strict';
 
-var enumOwnKeys = require('@fav/prop.enum-own-keys');
+var enumOwnProps = require('@fav/prop.enum-own-props');
 
 function assign(dest /* , src, ... */) {
   dest = new Object(dest);
@@ -14,27 +14,14 @@ function assign(dest /* , src, ... */) {
 
 /* istanbul ignore next */
 function assignEach(dest, src) {
-  var keys = enumOwnKeys(src);
-  for (var i2 = 0, n2 = keys.length; i2 < n2; i2++) {
-    var key = keys[i2];
+  var props = enumOwnProps(src);
+  for (var i2 = 0, n2 = props.length; i2 < n2; i2++) {
+    var prop = props[i2];
     try {
-      dest[key] = src[key];
+      dest[prop] = src[prop];
     } catch (e) {
       // If a property is read only, TypeError is thrown,
       // but this funciton ignores it.
-    }
-  }
-
-  if (typeof Symbol === 'function') {
-    var symbols = Object.getOwnPropertySymbols(new Object(src));
-    for (var i3 = 0, n3 = symbols.length; i3 < n3; i3++) {
-      var symbol = symbols[i3];
-      try {
-        dest[symbol] = src[symbol];
-      } catch (e) {
-        // If a property is read only, TypeError is thrown,
-        // but this funciton ignores it.
-      }
     }
   }
 }

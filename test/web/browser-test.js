@@ -54,7 +54,7 @@ describe('fav.prop.assign', function() {
     expect(ret).to.deep.equal({ a: 1, b: 2, c: 3 });
   });
 
-  it('Should not assigne unenumerable properties', function() {
+  it('Should not copy unenumerable properties', function() {
     var obj = Object.create({ foo: 1 }, {
       bar: { value: 2 },
       baz: { value: 3, enumerable: true },
@@ -65,7 +65,7 @@ describe('fav.prop.assign', function() {
     expect(copy.bar).to.be.undefined;
   });
 
-  it('Should not assign inherited properties', function() {
+  it('Should not copy inherited properties', function() {
     function Fn0() {
       this.a0 = 0;
       this.b0 = 'b';
@@ -101,6 +101,53 @@ describe('fav.prop.assign', function() {
     var prop0 = Object.getOwnPropertySymbols(ret);
     var prop2 = Object.getOwnPropertySymbols(o2);
     expect(prop0).to.have.members(prop2);
+  });
+
+  it('Should not copy unenumerable symbol-typed properties', function() {
+    if (typeof Symbol !== 'function') {
+      this.skip();
+      return;
+    }
+
+    var symbol0 = Symbol('s-0');
+    var symbol1 = Symbol('s-1');
+
+    var src = {};
+    src[symbol0] = 'a';
+    Object.defineProperty(src, symbol1, { value: 'b' });
+
+    var dest = assign({}, src);
+    expect(dest).to.deep.equal({});
+    expect(Object.getOwnPropertySymbols(dest)).to.deep.equal([symbol0]);
+    expect(dest[symbol0]).to.equal('a');
+    expect(dest[symbol1]).to.equal(undefined);
+  });
+
+  it('Should not copy inherited symbol-typed properties', function() {
+    if (typeof Symbol !== 'function') {
+      this.skip();
+      return;
+    }
+
+    var symbol0 = Symbol('s-0');
+    var symbol1 = Symbol('s-1');
+
+    var Fn0 = function() {
+      this[symbol0] = 'a';
+    };
+    var Fn1 = function() {
+      this[symbol1] = 'b';
+    };
+    Fn0.prototype = new Fn1();
+    var src = new Fn0();
+    expect(src[symbol0]).to.equal('a');
+    expect(src[symbol1]).to.equal('b');
+
+    var dest = assign({}, src);
+    expect(dest).to.deep.equal({});
+    expect(Object.getOwnPropertySymbols(dest)).to.deep.equal([symbol0]);
+    expect(dest[symbol0]).to.equal('a');
+    expect(dest[symbol1]).to.equal(undefined);
   });
 
   it('Should wrap primitives to objects', function() {
