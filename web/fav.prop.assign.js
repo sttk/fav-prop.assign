@@ -13,7 +13,6 @@ function assign(dest /* , src, ... */) {
   return dest;
 }
 
-/* istanbul ignore next */
 function assignEach(dest, src) {
   var props = enumOwnProps(src);
   for (var i2 = 0, n2 = props.length; i2 < n2; i2++) {
