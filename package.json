@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/sttk/fav-prop.assign#readme",
   "devDependencies": {
-    "browserify": "^14.5.0",
+    "browserify": "^16.2.0",
     "chai": "^3.5.0",
     "coveralls": "^3.0.0",
     "eslint": "^4.11.0",
@@ -50,6 +50,6 @@
     "uglify-js": "^3.1.9"
   },
   "dependencies": {
-    "@fav/prop.enum-own-props": "^1.0.0"
+    "@fav/prop.enum-own-props": "^1.0.1"
   }
 }
